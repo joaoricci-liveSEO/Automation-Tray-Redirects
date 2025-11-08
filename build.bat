@@ -31,10 +31,13 @@ if %errorlevel% neq 0 (
 )
 
 echo [3/4] Construindo o executavel (.exe) com PyInstaller...
-pyinstaller --onefile --windowed --noconsole ^
-    --add-data="de_para_redirecionamento.xlsx:." ^
-    automation_gui.py ^
-    --name="Automacao_Redirect_Tray"
+::
+:: COMANDO CORRIGIDO ABAIXO:
+:: 1. Juntei tudo em uma linha para evitar erros de 'continuacao' (^) no PowerShell.
+:: 2. Corrigi o separador do '--add-data' de ':' para ';' (o correto para Windows).
+:: 3. Adicionei '--hidden-import' para garantir que a 'automation_logic' seja incluída.
+::
+pyinstaller --onefile --windowed --noconsole --name="Automacao_Redirect_Tray" --add-data="de_para_redirecionamento.xlsx;." --hidden-import="automation_logic" automation_gui.py
 
 if %errorlevel% neq 0 (
     echo ERRO ao construir o executavel com PyInstaller.
